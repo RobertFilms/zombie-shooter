@@ -13,33 +13,41 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: url('');
-            color: rgb(161, 19, 19);
+            background: url('https://example.com/background.jpg');
+            background-size: cover;
+            color: #fff;
             font-family: 'Arial', sans-serif;
         }
 
         .title-screen {
             text-align: center;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
         }
 
         .title {
             font-size: 4em;
             margin-bottom: 20px;
+            text-shadow: 2px 2px 4px #000;
         }
 
         .start-button {
             padding: 10px 20px;
             font-size: 1.5em;
-            background-color: #ff0000;
+            background-color: #860b6c;
             border: none;
-            color: rgb(114, 24, 24);
+            color: #fff;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, transform 0.3s;
             text-decoration: none;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
         .start-button:hover {
-            background-color: #cc0000;
+            background-color: #980da5;
+            transform: scale(1.05);
         }
     </style>
 </head>
@@ -47,7 +55,7 @@
 <body>
     <div class="title-screen">
         <div class="title">Zombie Shooter</div>
-        <a href="game.html" class="start-button">Start Game</a>
+        <a href="/game" class="start-button">Start Game</a>
     </div>
 </body>
 

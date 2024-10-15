@@ -6,6 +6,7 @@ let shoot = false;
 
 let bullets = [];
 
+//Key Events
 document.addEventListener('keydown', event => {
     if (event.key == 'w') {
         w = true;

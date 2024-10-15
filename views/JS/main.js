@@ -1,7 +1,7 @@
 /*
-//Problems\\
-1. Bullets don't shoot when you press a move key at the same time
-2. The player can only shoot bullets in one direction
+//Problems/Things to do\\
+1. The player can only shoot bullets in one direction
+2. Camrea system
 //Problems\\
 */
 
@@ -29,6 +29,20 @@ function update() {
 
     player.draw();
     player.update();
+    
+    //Player border collision
+    if (player.x < 0) {
+        player.x = 0;
+    }
+    if (player.x + player.w > canvas.width) {
+        player.x = canvas.width - player.w;
+    }
+    if (player.y < 0) {
+        player.y = 0;
+    }
+    if (player.y + player.h > canvas.height) {
+        player.y = canvas.height - player.h;
+    }
 
     for (let i = 0; i < bullets.length; i++) {
         bullets[i].draw();
