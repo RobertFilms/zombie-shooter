@@ -2,7 +2,7 @@
 //Problems/Things to do\\
 1. The player can only shoot bullets in one direction
 2. Camrea system
-//Problems\\
+//Problems/Things to do\\
 */
 
 //Canvas setup
