@@ -2,6 +2,7 @@
 const sql = require('sqlite3');
 const express = require('express');
 const crypto = require('crypto');
+const path = require('path');
 
 //Being insane is trying to do the same thing over and over again and expecting different results - Albert Einstein
 
@@ -16,7 +17,11 @@ app.use(express.urlencoded({extended: true}));
 
 app.set ('view engine', 'ejs');
 
-const db = new sql.Database('users.db', (err) => {
+app.use('/public', express.static(path.join(__dirname, 'public')));
+
+//Functions
+
+const db = new sql.Database('userData.db', (err) => {
     if (err) {
         console.error(err);
     } else {
@@ -28,8 +33,16 @@ app.get('/', (req, res) => {
     res.render('index');
 });
 
-app.post('/login', (req, res) => {
+app.get('/signup', (req, res) => {
+    res.render('signup');
+});
 
+app.get('/menu', (req, res) => {
+    res.render('menu');
+});
+
+app.get('/game', (req, res) => {
+    res.render('game');
 });
 
 app.listen(PORT, () => {
