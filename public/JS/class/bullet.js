@@ -7,7 +7,7 @@ class Bullet {
         this.xv = -5;
         this.yv = 0;
         this.sprite = new Image();
-        this.sprite.src = "sprites/bullet.png";
+        this.sprite.src = "public/sprites/bullet.png";
     }
 
     physics() {
@@ -28,8 +28,7 @@ class Bullet {
         const currentFrame = Math.floor(Date.now() / frameDuration) % totalFrames;
         const sx = (currentFrame % 2) * frameWidth;
         const sy = Math.floor(currentFrame / 2) * frameHeight;
-        //ctx.drawImage(this.sprite, sx, sy, frameWidth, frameHeight, this.x, this.y, this.w, this.h);
-        somcanvas.getContext('this.sprite.src'). drawImage(this.sprite, sx, sy, frameWidth, frameHeight, this.x, this.y, this.w, this.h);
+        ctx.drawImage(this.sprite, sx, sy, frameWidth, frameHeight, this.x, this.y, this.w, this.h);
     }
 
     update() {

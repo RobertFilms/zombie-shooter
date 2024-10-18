@@ -8,6 +8,7 @@
 //Canvas setup
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
+
 ctx.imageSmoothingEnabled = false;
 
 canvas.height = window.innerHeight;
@@ -55,4 +56,4 @@ function update() {
     requestAnimationFrame(update);
 }
 
-update();
+window.onload = () => {update();}

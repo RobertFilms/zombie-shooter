@@ -6,6 +6,9 @@ let shoot = false;
 
 let bullets = [];
 
+const coolDown = 1000;
+let lastShot = Date.now() - coolDown;
+
 //Key Events
 document.addEventListener('keydown', event => {
     if (event.key == 'w') {
@@ -43,6 +46,25 @@ document.addEventListener('keyup', event => {
     }
 });
 
+
+//CoolDown functions
+function startCoolDown() {
+    lastShot = Date.now();
+}
+
+function canShoot() {
+    const notOver = Date.now() - lastShot > coolDown;
+    if (notOver){
+        return !notOver;
+    }
+}
+
+function shootBullet() {
+    if (shoot === true && canShoot()) {
+        startCoolDown();
+    }
+}
+
 //Move function
 function move() {
     if (w) {
@@ -68,9 +90,10 @@ function move() {
 
 //Bullet Spawn Function
 function spawnBullet() {
-    if (shoot == true) {
+    if (shoot === true && canShoot()) {
         let bullet = new Bullet();
         bullets.push(bullet);
-        shoot = false;
+        console.log(bullets.length);
+        shootBullet();
     };
 };
