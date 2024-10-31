@@ -1,13 +1,24 @@
 class Bullet {
-    constructor(x, y, w, h) {
-        this.x = player.x;
-        this.y = player.y;
+    constructor(x, y, mouseX, mouseY) {
+        this.x = x;
+        this.y = y;
         this.w = 20;
         this.h = 15;
-        this.xv = -5;
+        this.speed = 5;
+        this.xv = 0;
         this.yv = 0;
         this.sprite = new Image();
         this.sprite.src = "public/sprites/bullet.png";
+
+        // Calculate direction
+        const DX = mouseX - this.x;
+        const DY = mouseY - this.y;
+        const DISTANCE = Math.sqrt(DX * DX + DY * DY);
+        this.xv = (DX / DISTANCE) * this.speed;
+        this.yv = (DY / DISTANCE) * this.speed;
+
+        // Calculate angle
+        this.angle = Math.atan2(DY, DX);
     }
 
     physics() {
@@ -20,6 +31,7 @@ class Bullet {
             return;
         }
 
+        // Spritesheet stuff
         const frameWidth = this.sprite.width / 2;
         const frameHeight = this.sprite.height / 2;
         const totalFrames = 4;
@@ -28,7 +40,13 @@ class Bullet {
         const currentFrame = Math.floor(Date.now() / frameDuration) % totalFrames;
         const sx = (currentFrame % 2) * frameWidth;
         const sy = Math.floor(currentFrame / 2) * frameHeight;
-        ctx.drawImage(this.sprite, sx, sy, frameWidth, frameHeight, this.x, this.y, this.w, this.h);
+
+        // Draw the bullet
+        ctx.save();
+        ctx.translate(this.x + this.w / 2, this.y + this.h / 2);
+        ctx.rotate(2*Math.PI - this.angle);
+        ctx.drawImage(this.sprite, sx, sy, frameWidth, frameHeight, -this.w / 2, -this.h / 2, this.w, this.h);
+        ctx.restore();
     }
 
     update() {

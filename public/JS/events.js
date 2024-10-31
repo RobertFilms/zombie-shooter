@@ -6,6 +6,10 @@ let shoot = false;
 
 let bullets = [];
 
+//Mouse Variables
+let mouseX = 0;
+let mouseY = 0;
+
 //CoolDown Variables
 const coolDown = 250;
 let lastShot = Date.now();
@@ -24,9 +28,6 @@ document.addEventListener('keydown', event => {
     if (event.key == 'd') {
         d = true;
     }
-    if (event.key == ' ') {
-        shoot = true;
-    }
 });
 
 document.addEventListener('keyup', event => {
@@ -42,11 +43,22 @@ document.addEventListener('keyup', event => {
     if (event.key === 'd') {
         d = false;
     }
-    if (event.key === ' ') {
-        shoot = false;
-    }
 });
 
+//Mouse tracking
+window.addEventListener('mousemove', event => {
+    mouseX = event.clientX;
+    mouseY = event.clientY;
+    //console.log(mouseX, mouseY);
+});
+
+//Mouse shoot
+window.addEventListener('mousedown', event => {
+    shoot = true;
+});
+window.addEventListener('mouseup', event => {
+    shoot = false;
+});
 
 //CanShoot function
 function canShoot() {
@@ -82,9 +94,14 @@ function move() {
 //Bullet Spawn Function
 function spawnBullet() {
     if (shoot && canShoot()) {
-        let bullet = new Bullet();
+        let bullet = new Bullet(player.x, player.y, mouseX, mouseY);
         bullets.push(bullet);
-        console.log(bullets.length);
         lastShot = Date.now();
-    };
-};
+    }
+}
+
+//Update function
+function eventUpdate() {
+    move();
+    spawnBullet();
+}

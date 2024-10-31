@@ -1,27 +1,38 @@
 //Base node stuff frfr
 const sql = require('sqlite3');
 const express = require('express');
-const crypto = require('crypto');
 const path = require('path');
+const session = require('express-session');
+const crypto = require('crypto');
 
 //Being insane is trying to do the same thing over and over again and expecting different results - Albert Einstein
 
 //Add a thing to add an image to the user profile (maybe)
 //And I should prob make a ejs page to display profiles
+//Add a chat feature
 
 const PORT = 3000;
 
 const app = express();
 
-app.use(express.urlencoded({extended: true}));
-
-app.set ('view engine', 'ejs');
-
+app.use(express.urlencoded({ extended: true }));
+app.set('view engine', 'ejs');
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
-//Functions
+//Session stuff
+app.use(session({
+    secret: 'LookAtMeImTheSecretNow',
+    resave: false,
+    saveUninitialized: false
+}));
 
-const db = new sql.Database('userData.db', (err) => {
+//Functions
+function isAuthed(req, res, next) {
+    if (req.session.user) next();
+    else res.redirect('/login');
+}
+
+const db = new sql.Database('data/userData.db', (err) => {
     if (err) {
         console.error(err);
     } else {
@@ -29,20 +40,67 @@ const db = new sql.Database('userData.db', (err) => {
     }
 });
 
-app.get('/', (req, res) => {
+//App gets
+app.get('/', isAuthed, (req, res) => {
     res.render('index');
 });
 
-app.get('/signup', (req, res) => {
-    res.render('signup');
+app.get('/login', (req, res) => {
+    res.render('login');
 });
 
-app.get('/menu', (req, res) => {
+app.get('/menu', isAuthed, (req, res) => {
     res.render('menu');
 });
 
-app.get('/game', (req, res) => {
+app.get('/game', isAuthed, (req, res) => {
     res.render('game');
+});
+
+//App posts
+app.post('/login', (req, res) => {
+    if (req.body.username && req.body.password) {
+        db.get('SELECT * FROM users WHERE username = ?; ', req.body.username, (err, row) => {
+            if (err) res.redirect('/login', { message: 'An error occured' });
+            else if (!row) {
+                //Create a new salt for this user
+                const SALT = crypto.randomBytes(16).toString('hex');
+
+                //use salt to 'hash' the password
+                crypto.pbkdf2(req.body.password, SALT, 1000, 64, 'sha512', (err, derivedKey) => {
+                    if (err) res.redirect('/login', { message: 'An error occured' });
+                    else {
+                        const hashPassword = derivedKey.toString('hex');
+                        db.run('INSERT INTO users (username, password, salt) VALUES (?, ?, ?);', [req.body.username, hashPassword, SALT], (err) => {
+                            if (err) res.send('An error occured:\n' + err);
+                            else {
+                                res.redirect('/login', { message: 'Account added to database' });
+                            };
+                        });
+                    }
+                });
+            } else {
+                //Compare your password with stored password
+
+                crypto.pbkdf2(req.body.password, row.salt, 1000, 64, 'sha512', (err, derivedKey) => {
+                    if (err) res.redirect('/login', { message: 'Invalid username or password' });
+                     else {
+                        const hashPassword = derivedKey.toString('hex');
+
+                        if (hashPassword === row.password) {
+                            req.session.user = req.body.username;
+
+                            res.redirect('/');
+                        } else res.redirect('/login', { message: 'Invalid username or password' });
+                    }
+                });
+            }
+        });
+    }
+});
+
+app.post('/game', isAuthed, (req, res) => {
+    
 });
 
 app.listen(PORT, () => {

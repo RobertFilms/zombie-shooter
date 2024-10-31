@@ -6,8 +6,8 @@
 */
 
 //Canvas setup
-let canvas = document.getElementById('canvas');
-let ctx = canvas.getContext('2d');
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
 
 ctx.imageSmoothingEnabled = false;
 
@@ -50,10 +50,9 @@ function update() {
         bullets[i].update();
     }
 
-    move();
-    spawnBullet();
+    eventUpdate();
 
     requestAnimationFrame(update);
 }
 
-window.onload = () => {update();}
+window.onload = () => {update()}
