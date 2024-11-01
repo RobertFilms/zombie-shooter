@@ -18,7 +18,7 @@ class Bullet {
         this.yv = (DY / DISTANCE) * this.speed;
 
         // Calculate angle
-        this.angle = Math.atan2(DY, DX);
+        this.angle = Math.atan2(2*Math.PI - DY, 2*Math.PI - DX);
     }
 
     physics() {
@@ -44,7 +44,7 @@ class Bullet {
         // Draw the bullet
         ctx.save();
         ctx.translate(this.x + this.w / 2, this.y + this.h / 2);
-        ctx.rotate(2*Math.PI - this.angle);
+        ctx.rotate(this.angle);
         ctx.drawImage(this.sprite, sx, sy, frameWidth, frameHeight, -this.w / 2, -this.h / 2, this.w, this.h);
         ctx.restore();
     }
