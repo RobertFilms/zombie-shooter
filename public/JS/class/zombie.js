@@ -4,9 +4,10 @@ class Zombie {
         this.y = y;
         this.w = 20;
         this.h = 35;
-        this.xv = 0;
-        this.yv = 0;
+        this.xv = -5;
+        this.yv = -5;
         this.speed = 2.5;
+        this.color = 'red';
     }
 
     physics() {
@@ -15,6 +16,11 @@ class Zombie {
     }
 
     draw() {
+        ctx.fillStyle = this.color;
+        ctx.fillRect(this.x, this.y, this.w, this.h);
+    }
+
+    update() {
         this.physics();
     }
 }

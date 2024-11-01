@@ -2,22 +2,22 @@ class Bullet {
     constructor(x, y, mouseX, mouseY) {
         this.x = x;
         this.y = y;
-        this.w = 20;
-        this.h = 15;
-        this.speed = 5;
+        this.w = 28;
+        this.h = 20;
+        this.speed = 12;
         this.xv = 0;
         this.yv = 0;
         this.sprite = new Image();
         this.sprite.src = "public/sprites/bullet.png";
 
-        // Calculate direction
+        //Calculate direction
         const DX = mouseX - this.x;
         const DY = mouseY - this.y;
         const DISTANCE = Math.sqrt(DX * DX + DY * DY);
         this.xv = (DX / DISTANCE) * this.speed;
         this.yv = (DY / DISTANCE) * this.speed;
 
-        // Calculate angle
+        //Calculate angle
         this.angle = Math.atan2(2*Math.PI - DY, 2*Math.PI - DX);
     }
 
@@ -31,7 +31,7 @@ class Bullet {
             return;
         }
 
-        // Spritesheet stuff
+        //Spritesheet stuff
         const frameWidth = this.sprite.width / 2;
         const frameHeight = this.sprite.height / 2;
         const totalFrames = 4;
@@ -41,7 +41,7 @@ class Bullet {
         const sx = (currentFrame % 2) * frameWidth;
         const sy = Math.floor(currentFrame / 2) * frameHeight;
 
-        // Draw the bullet
+        //Draw the bullet
         ctx.save();
         ctx.translate(this.x + this.w / 2, this.y + this.h / 2);
         ctx.rotate(this.angle);

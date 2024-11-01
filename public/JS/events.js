@@ -5,6 +5,10 @@ let s = false;
 let shoot = false;
 
 let bullets = [];
+let zombies = [];
+
+const negv = -3;
+const posv = 3;
 
 //Mouse Variables
 let mouseX = 0;
@@ -13,6 +17,10 @@ let mouseY = 0;
 //CoolDown Variables
 const coolDown = 250;
 let lastShot = Date.now();
+
+function randomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+};
 
 //Key Events
 document.addEventListener('keydown', event => {
@@ -63,7 +71,7 @@ window.addEventListener('mouseup', event => {
 //CanShoot function
 function canShoot() {
     const notOver = Date.now() - lastShot > coolDown;
-    if (notOver){
+    if (notOver) {
         return true;
     }
 }
@@ -71,16 +79,16 @@ function canShoot() {
 //Move function
 function move() {
     if (w) {
-        player.yv = -3;
+        player.yv = negv;
     }
     if (a) {
-        player.xv = -3;
+        player.xv = negv;
     }
     if (s) {
-        player.yv = 3;
+        player.yv = posv;
     }
     if (d) {
-        player.xv = 3;
+        player.xv = posv;
     }
 
     if (!w && !s) {
@@ -94,9 +102,19 @@ function move() {
 //Bullet Spawn Function
 function spawnBullet() {
     if (shoot && canShoot()) {
-        let bullet = new Bullet(player.x+(player.h/2), player.y+(player.w/2), mouseX, mouseY);
+        let bullet = new Bullet(player.x + (player.h / 2), player.y + (player.w / 2), mouseX, mouseY);
         bullets.push(bullet);
         lastShot = Date.now();
+    }
+}
+
+//Zombie spawn
+function spawnZombie() {
+    let x = randomInt(0, canvas.width);
+    let y = randomInt(0, canvas.height);
+    if (randomInt(0,1) == 1) {
+        let zombie = new Zombie(x, y, 'red');
+        zombies.push(zombie);
     }
 }
 
@@ -104,4 +122,5 @@ function spawnBullet() {
 function eventUpdate() {
     move();
     spawnBullet();
+    spawnZombie();
 }

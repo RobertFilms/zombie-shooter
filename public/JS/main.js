@@ -50,6 +50,11 @@ function update() {
         bullets[i].update();
     }
 
+    for (let i = 0; i < zombies.length; i++) {
+        zombies[i].draw();
+        zombies[i].update();
+    }
+
     eventUpdate();
 
     requestAnimationFrame(update);
