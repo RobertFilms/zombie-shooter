@@ -5,6 +5,18 @@ const path = require('path');
 const session = require('express-session');
 const crypto = require('crypto');
 
+const PORT = 3000;
+
+const app = express();
+
+const { createServer } = require('node:http');
+const { join } = require('node:path');
+
+const { Server } = require('socket.io');
+const { disconnect } = require('process');
+const server = createServer(app);
+const io = new Server(server);
+
 //Thank goodness for the login boilerplate we made in calss
 //Being insane is trying to do the same thing over and over again and expecting different results - Albert Einstein
 
@@ -12,10 +24,6 @@ const crypto = require('crypto');
 //And I should prob make a ejs page to display profiles
 //Add a chat feature
 //Make the classes and important stuff server side to make it harder to cheat
-
-const PORT = 3000;
-
-const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
@@ -34,9 +42,16 @@ function isAuthed(req, res, next) {
     else res.redirect('/login');
 }
 
+io.on('connection', (socket) => {
+    console.log('New user connected.');
+    socket.on('disconnect', () => {
+        console.log('A user has disconnected.');
+    });
+});
+
 //App gets
 app.get('/', isAuthed, (req, res) => {
-    res.render('index');
+    res.render(join('index'));
 });
 
 app.get('/login', (req, res) => {
@@ -110,6 +125,6 @@ const db = new sql.Database('data/userData.db', (err) => {
     }
 });
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

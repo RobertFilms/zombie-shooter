@@ -4,8 +4,8 @@ class Zombie {
         this.y = y;
         this.w = 20;
         this.h = 35;
-        this.xv = -5;
-        this.yv = -5;
+        this.xv = 1;
+        this.yv = 1;
         this.speed = 2.5;
         this.color = 'red';
     }

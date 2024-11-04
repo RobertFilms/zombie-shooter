@@ -7,6 +7,7 @@ class Player {
         this.xv = 0;
         this.yv = 0;
         this.color = 'blue';
+        this.dead = false;
     }
 
     physics() {

@@ -21,6 +21,9 @@ window.onresize = function () {
 
 canvas.style.backgroundColor = 'green';
 
+//VARS
+let deadList = [];
+
 let player = new Player(100, 100, 50, 60);
 
 //Update function
@@ -30,6 +33,10 @@ function update() {
 
     player.draw();
     player.update();
+
+    if (player.dead) {
+        return;
+    }
     
     //Player border collision
     if (player.x < 0) {
@@ -54,6 +61,15 @@ function update() {
         zombies[i].draw();
         zombies[i].update();
     }
+
+    //Collions
+    // if (collision(player, zombie)) {
+    //     player.dead = true;
+    // }
+
+    // if (collision(bullets, zombie)) {
+    //     zombies.slice(zombie);
+    // }
 
     eventUpdate();
 

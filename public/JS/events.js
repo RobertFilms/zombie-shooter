@@ -110,10 +110,8 @@ function spawnBullet() {
 
 //Zombie spawn
 function spawnZombie() {
-    let x = randomInt(0, canvas.width);
-    let y = randomInt(0, canvas.height);
-    if (randomInt(0,1) == 1) {
-        let zombie = new Zombie(x, y, 'red');
+    if (randomInt(0,100) == 9) {
+        var zombie = new Zombie(100, 100, 'red');
         zombies.push(zombie);
     }
 }
