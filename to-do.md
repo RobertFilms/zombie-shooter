@@ -3,6 +3,8 @@
 ## Gameplay
 - [X] Design and implement main character controls
 - [X] Create zombie enemy AI
+- [ ] Fix the mouse x & y for each players
+(It uses the last stored x & y from each mouse for all players)
 - [ ] Develop different levels and environments
 - [X] Implement health and damage system
 - [ ] Add various weapons and ammo pickups

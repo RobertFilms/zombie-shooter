@@ -25,7 +25,7 @@ let bulletList = [];
 let bulletId = null;
 
 let playerScore = 1;
-let playerHealth = 100; // Add player health
+let playerHealth = 100;
 
 let scoreDisplay = document.getElementById('score');
 
@@ -46,7 +46,7 @@ socket.on('init', (data) => {
     const player = playerList.find(player => player.id === playerId);
     if (player) {
         playerScore = player.score;
-        playerHealth = player.hp || 100; // Ensure health is set
+        playerHealth = player.hp || 100; //Ensure health is set
     }
 
     zombieList = data.zombies;
@@ -57,19 +57,19 @@ socket.on('init', (data) => {
 });
 
 socket.on('update', (data) => {
-    // Update playerList
-    playerList = data.players; // Get all players
+    //Update playerList
+    playerList = data.players; //Get all players
 
-    // Update the player's score and health
+    //Update the player's score and health
     const player = playerList.find(player => player.id === playerId);
     if (player) {
         playerScore = player.score;
         playerHealth = player.hp;
     }
 
-    zombieList = data.zombies; // Get all zombies
+    zombieList = data.zombies; //Get all zombies
 
-    bulletList = data.bullets; // Get all bullets
+    bulletList = data.bullets; //Get all bullets
     
     if (document.getElementById('gameCanvas')) {
         update();
@@ -84,7 +84,7 @@ socket.on('dead', () => {
     window.location.href = deadPage;
 });
 
-// Event
+//Event
 document.addEventListener('keydown', (event) => {
     const key = event.key.toLowerCase();
     if (['w', 'a', 's', 'd', ' '].includes(key)) {
@@ -103,43 +103,43 @@ document.addEventListener('keyup', (event) => {
     }
 });
 
-// Mouse tracking
+//Mouse tracking
 document.addEventListener('mousemove', event => {
     mouseX = event.clientX;
     mouseY = event.clientY;
 
-    // Send server the mouse position
+    //Send server the mouse position
     socket.emit('mouse', { x: mouseX, y: mouseY });
 });
 
 let x = 0;
 let y = 0;
 
-// GAME LOOPS
+//GAME LOOPS
 function update() {
 
-    // Canvas color
+    //Canvas color
     ctx.fillStyle = '#19b543';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Draw score
+    //Draw score
     ctx.fillStyle = 'black';
     ctx.font = '30px Arial';
     scoreDisplay.innerHTML = `Score: ${playerScore} Health: ${playerHealth}`; // Display health
 
-    // Draw players
+    //Draw players
     for (let player of playerList) {
         ctx.fillStyle = player.color;
         ctx.fillRect(player.x, player.y, player.w, player.h);
     }
 
-    // Draw zombies
+    //Draw zombies
     for (let zombie of zombieList) {
         ctx.fillStyle = zombie.color;
         ctx.fillRect(zombie.x, zombie.y, zombie.w, zombie.h);
     }
 
-    // Draw bullets
+    //Draw bullets
     for (let bullet of bulletList) {
         ctx.fillStyle = bullet.color;
         ctx.fillRect(bullet.x, bullet.y, bullet.w, bullet.h);

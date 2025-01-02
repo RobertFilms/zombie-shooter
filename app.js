@@ -291,7 +291,7 @@ function updateZombie() {
         let closestPlayer = null;
         let closestDistance = Infinity;
         for (let player of playerList) {
-            if (player.dead) continue; // Skip dead players
+            if (player.dead) continue; //Skip dead players
             let distance = Math.sqrt((player.x - zombie.x) ** 2 + (player.y - zombie.y) ** 2);
             if (distance < closestDistance) {
                 closestDistance = distance;
